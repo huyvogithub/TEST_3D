@@ -2,15 +2,16 @@ import React, { useState } from 'react';
 import Form from '@rjsf/core';
 import validator from '@rjsf/validator-ajv8';
 import axios from 'axios';
+import './UserLogin.css'; // Import file CSS tùy chỉnh
 
 const schema = {
   title: 'MỜI NHẬP TÀI KHOẢN',
   type: 'object',
   required: ['username', 'password', 'gender', 'height', 'weight', 'medicalHistory'],
   properties: {
-    username: { type: 'string', title: 'Account' },
-    password: { type: 'string', title: 'PASS', format: 'password' },
-    gender: { type: 'string', title: 'GIỚI TÍNH', enum: ['Male', 'Female', 'Other'] },
+    username: { type: 'string', title: 'TÊN BỆNH NHÂN' },
+    password: { type: 'string', title: 'MÃ SỐ', format: 'password' },
+    gender: { type: 'string', title: 'GIỚI TÍNH', enum: ['Nam', 'Nữ', 'Khác'] },
     height: { type: 'number', title: 'CHIỀU CAO (cm)' },
     weight: { type: 'number', title: 'CÂN NẶNG (kg)' },
     medicalHistory: { type: 'string', title: 'TIỀN SỬ BỆNH', format: 'textarea' },

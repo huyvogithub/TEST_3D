@@ -24,8 +24,8 @@ const UserList = () => {
 
   return (
     <div>
-      <h2>Danh sách người dùng:</h2>
-      <h5>(Refresh để cập nhật)</h5>
+      <h2>DANH SÁCH VÀ STT </h2>
+      <h5>(Refresh)</h5>
       <ul>
         {userData.map((user, index) => (
           <li key={index}>

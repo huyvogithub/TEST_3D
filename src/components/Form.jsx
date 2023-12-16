@@ -4,12 +4,16 @@ import validator from '@rjsf/validator-ajv8';
 import axios from 'axios';
 
 const schema = {
-  title: 'Đăng ký',
+  title: 'MỜI NHẬP TÀI KHOẢN',
   type: 'object',
-  required: ['username', 'password'],
+  required: ['username', 'password', 'gender', 'height', 'weight', 'medicalHistory'],
   properties: {
-    username: { type: 'string', title: 'Tài khoản' },
-    password: { type: 'string', title: 'Mật khẩu', format: 'password' },
+    username: { type: 'string', title: 'Account' },
+    password: { type: 'string', title: 'PASS', format: 'password' },
+    gender: { type: 'string', title: 'GIỚI TÍNH', enum: ['Male', 'Female', 'Other'] },
+    height: { type: 'number', title: 'CHIỀU CAO (cm)' },
+    weight: { type: 'number', title: 'CÂN NẶNG (kg)' },
+    medicalHistory: { type: 'string', title: 'TIỀN SỬ BỆNH', format: 'textarea' },
   },
 };
 
@@ -18,7 +22,7 @@ const UserLogin = () => {
 
   const handleSubmit = async ({ formData }) => {
     try {
-      console.log('Dữ liệu gửi đi:', formData); // Log dữ liệu trước khi gửi để kiểm tra
+      console.log('Dữ liệu gửi đi:', formData);
 
       const response = await axios.post(
         'https://ap-southeast-1.aws.data.mongodb-api.com/app/data-tqlme/endpoint/POST_JSON_BACKEND',
@@ -39,8 +43,8 @@ const UserLogin = () => {
       <Form
         schema={schema}
         validator={validator}
-        formData={formData} // Truyền giá trị của form
-        onChange={({ formData }) => setFormData(formData)} // Cập nhật state khi form thay đổi
+        formData={formData}
+        onChange={({ formData }) => setFormData(formData)}
         onSubmit={handleSubmit}
       />
     </div>

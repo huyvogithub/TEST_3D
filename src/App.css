@@ -36,3 +36,9 @@
     transform: rotate(360deg);
   }
 }
+/* App.css hoặc tệp CSS tương ứng */
+.three-d-component-wrapper {
+  max-width: 600px; /* Giới hạn chiều rộng tối đa */
+  max-height: 400px; /* Giới hạn chiều cao tối đa */
+  margin: 0 auto; /* Để căn giữa nếu chiều rộng tối đa chưa đạt được */
+}

@@ -1,0 +1,6 @@
+.three-d-component-wrapper {
+    max-width: 40%; /* Đặt kích thước tối đa cho container */
+    height: 10%; 
+    margin: 0 auto; /* Canh giữa container trong trang */
+  }
+  

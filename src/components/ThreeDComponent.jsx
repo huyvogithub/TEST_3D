@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
-
+import './ThreeDComponent.css'; // Import CSS file
 const ThreeDComponent = () => {
   useEffect(() => {
     let camera, scene, renderer, Taytrai, Tayphai, Cotaytrai, Cotayphai;
@@ -33,7 +33,7 @@ const ThreeDComponent = () => {
       scene.add(grid);
 
       const loader = new GLTFLoader();
-      loader.load('http://localhost:1880/glb', function (gltf) {
+      loader.load('https://raw.githubusercontent.com/huyvogithub/stl/main/mohinh.glb', function (gltf) {
         const model = gltf.scene;
         console.log(model);
 
@@ -116,7 +116,11 @@ const ThreeDComponent = () => {
     };
   }, []);
 
-  return null; // JSX component should return something; in this case, we don't need to render anything
+  return (
+    <div className="three-d-component-wrapper">
+      {null}
+    </div>
+  );
 };
 
 export default ThreeDComponent;

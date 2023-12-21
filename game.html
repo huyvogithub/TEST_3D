@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+
+        canvas {
+            display: block;
+            width: 80vw;
+            height: 80vh;
+        }
+
+        #startButton {
+            font-size: 24px;
+            /* Đặt kích thước chữ */
+            padding: 10px 20px;
+            /* Đặt kích thước nút bằng cách thêm padding */
+        }
+    </style>
+    <title>Trò chơi Khủng long</title>
+</head>
+
+<body>
+    <canvas id="dinosaurGameCanvas"></canvas>
+    <button id="startButton">Bắt đầu</button>
+    <span id="scoreText">Điểm: 0</span>
+
+    <script>
+
+        async function layDuLieu() {
+            try {
+                const response = await fetch('http://localhost:1880/bye');
+                const data = await response.json();
+
+                // Xử lý dữ liệu nhận được, ví dụ:
+                const tayTraiY = parseFloat(data.Taytraiy);
+                console.log('Dữ liệu từ server:', tayTraiY);
+                if (tayTraiY > 0) {
+                    document.getElementById("scoreText").textContent = 'hehe';
+                    nhay();
+                }
+                //document.getElementById("scoreText").textContent = `Điểm: ${tayTraiY}`;
+                document.addEventListener("keydown", (event) => {
+                    if (!ketThucTroChoi) {
+                        if (event.code === "Space") {
+                            nhay();
+                        }
+
+                    }
+                });
+                // Sử dụng dữ liệu nhận được, ví dụ:
+                // document.getElementById("scoreText").textContent = tayTraiY;
+
+                // Thêm logic xử lý dữ liệu vào đây
+
+            } catch (error) {
+                console.error('Lỗi khi lấy dữ liệu:', error);
+            }
+        }
+
+
+
+
+
+
+        const canvas = document.getElementById("dinosaurGameCanvas");
+        const ctx = canvas.getContext("2d");
+
+        const chieuCaoMatDat = 20;
+        const khungLong = {
+            x: 50,
+            y: canvas.height - chieuCaoMatDat - 30,
+            width: 30,
+            height: 30,
+            color: "green",
+            doCaoNhay: 200, // Thay đổi độ cao nhảy
+            dangNhay: false
+        };
+
+        const vatCan = {
+            x: canvas.width - 50,
+            y: canvas.height - chieuCaoMatDat - 20,
+            width: 20,
+            height: 20,
+            color: "red",
+            tocDo: 1 // Thay đổi tốc độ vật cản
+        };
+
+        let diem = 0;
+        let ketThucTroChoi = false;
+
+        let khoangThoiGianVatCan;
+
+        function khoiDongTroChoi() {
+            diem = 0;
+            ketThucTroChoi = false;
+            vatCan.x = canvas.width - 50;
+            khungLong.y = canvas.height - chieuCaoMatDat - 30;
+            clearInterval(khoangThoiGianVatCan);
+            khoangThoiGianVatCan = setInterval(diChuyenVatCan, 20);
+            veHinh();
+        }
+
+        function veHinh() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = "#ddd";
+            ctx.fillRect(0, canvas.height - chieuCaoMatDat, canvas.width, chieuCaoMatDat);
+            ctx.fillStyle = vatCan.color;
+            ctx.fillRect(vatCan.x, vatCan.y, vatCan.width, vatCan.height);
+            ctx.fillStyle = khungLong.color;
+            ctx.fillRect(khungLong.x, khungLong.y, khungLong.width, khungLong.height);
+            ctx.fillStyle = "black";
+            ctx.font = "20px Arial";
+            ctx.fillText(`Điểm: ${diem}`, 10, 30);
+
+            if (ketThucTroChoi) {
+                ctx.fillStyle = "black";
+                ctx.font = "40px Arial";
+                ctx.fillText("KẾT THÚC", canvas.width / 2 - 100, canvas.height / 2);
+            } else {
+                requestAnimationFrame(veHinh);
+            }
+        }
+
+        function nhay() {
+            if (!khungLong.dangNhay) {
+                khungLong.dangNhay = true;
+                const yBanDau = khungLong.y;
+                let daDatDoCao = false;
+
+                function nhayLen() {
+                    if (khungLong.y > yBanDau - khungLong.doCaoNhay && !daDatDoCao) {
+                        khungLong.y -= 3;
+                    } else {
+                        daDatDoCao = true;
+                        nhayXuong();
+                    }
+                }
+
+                function nhayXuong() {
+                    if (khungLong.y < yBanDau) {
+                        khungLong.y += 2;
+                    } else {
+                        khungLong.y = yBanDau;
+                        khungLong.dangNhay = false;
+                        clearInterval(khoangThoiGianNhay);
+                    }
+                }
+
+                const khoangThoiGianNhay = setInterval(() => {
+                    nhayLen();
+                }, 10);
+            }
+        }
+
+        function diChuyenVatCan() {
+            if (!ketThucTroChoi) {
+                vatCan.x -= vatCan.tocDo;
+
+                if (vatCan.x + vatCan.width < 0) {
+                    vatCan.x = canvas.width;
+                    diem++;
+                }
+
+                if (
+                    khungLong.x < vatCan.x + vatCan.width &&
+                    khungLong.x + khungLong.width > vatCan.x &&
+                    khungLong.y < vatCan.y + vatCan.height &&
+                    khungLong.y + khungLong.height > vatCan.y
+                ) {
+                    console.log("KẾT THÚC TRÒ CHƠI");
+                    ketThucTroChoi = true;
+                }
+            }
+        }
+
+
+
+        document.getElementById("startButton").addEventListener("click", () => {
+            if (ketThucTroChoi) {
+                khoiDongTroChoi();
+            }
+        });
+
+        khoiDongTroChoi(); // Bắt đầu trò chơi ngay khi trang được tải
+
+
+
+        setInterval(layDuLieu, 100); // Lấy dữ liệu mỗi giây (1000 miliseconds)
+
+    </script>
+</body>
+
+</html>

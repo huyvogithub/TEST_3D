@@ -38,7 +38,14 @@
 }
 /* App.css hoặc tệp CSS tương ứng */
 .three-d-component-wrapper {
-  max-width: 600px; /* Giới hạn chiều rộng tối đa */
-  max-height: 400px; /* Giới hạn chiều cao tối đa */
-  margin: 0 auto; /* Để căn giữa nếu chiều rộng tối đa chưa đạt được */
+  position: fixed;
+  top: 20px; /* Điều chỉnh vị trí top theo yêu cầu của bạn */
+  left: 20px; /* Điều chỉnh vị trí left theo yêu cầu của bạn */
+  width: 200px; /* Đặt kích thước chiều rộng của container */
+  height: 200px; /* Đặt kích thước chiều cao của container */
+}
+.iframe-wrapper {
+  position: fixed;
+  top: 20px;
+  left: 20px;
 }

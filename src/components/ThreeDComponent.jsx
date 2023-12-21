@@ -31,6 +31,9 @@ const ThreeDComponent = () => {
       grid.material.opacity = 0.1;
       grid.material.transparent = true;
       scene.add(grid);
+      const maxContainerWidth = 1000;
+      const maxContainerHeight = 1000;
+      const scaleFactor = Math.min(maxContainerWidth / window.innerWidth, maxContainerHeight / window.innerHeight);
 
       const loader = new GLTFLoader();
       loader.load('https://raw.githubusercontent.com/huyvogithub/stl/main/mohinh.glb', function (gltf) {
@@ -62,6 +65,9 @@ const ThreeDComponent = () => {
         Cotayphai = Bones.find((bone) => bone.name === 'mixamorigRightForeArm');
         Taytrai.rotation.x = 1.4;
         Tayphai.rotation.x = 1.4;
+        // Chỉnh kích thước của model
+        //scene.scale.set(scaleFactor, scaleFactor, scaleFactor);
+        //model.scale.set(scaleFactor, scaleFactor, scaleFactor);
         const degreeToRadian = Math.PI / 180;
         async function layDuLieu() {
           try {
